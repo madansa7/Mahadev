@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { SHIVA_FORMS, GLOSSARY, NAMES_108, TIMELINE_DATA } from './data';
 import { ShivaForm, FormClassification } from './types';
 import { askScholar, generateFormVisual } from './geminiService';
@@ -7,17 +7,20 @@ import { askScholar, generateFormVisual } from './geminiService';
 // --- Sub-components ---
 
 const Header: React.FC = () => (
-  <header className="relative py-12 px-6 text-center border-b border-stone-800 bg-stone-950 overflow-hidden">
-    <div className="absolute inset-0 opacity-10 pointer-events-none">
+  <header className="relative py-20 px-6 text-center border-b border-stone-800 bg-stone-950 overflow-hidden">
+    <div className="absolute inset-0 opacity-20 pointer-events-none">
        <div className="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900 via-transparent to-transparent"></div>
     </div>
-    <h1 className="text-5xl md:text-7xl font-bold tracking-widest text-amber-500 mb-4 cinzel">MAHADEVA</h1>
-    <p className="text-xl md:text-2xl text-stone-400 max-w-3xl mx-auto italic">
-      An Interactive Scholarly Compendium of the Great God
-    </p>
-    <div className="mt-8 flex justify-center space-x-4">
-      <span className="px-3 py-1 bg-amber-900/30 text-amber-200 border border-amber-900/50 rounded-full text-xs uppercase tracking-widest">Scripture-Anchored</span>
-      <span className="px-3 py-1 bg-amber-900/30 text-amber-200 border border-amber-900/50 rounded-full text-xs uppercase tracking-widest">{SHIVA_FORMS.length} Major Forms</span>
+    <div className="relative z-10">
+      <h1 className="text-6xl md:text-8xl font-bold tracking-[0.2em] text-amber-500 mb-6 font-cinzel">MAHADEVA</h1>
+      <p className="text-xl md:text-2xl text-stone-400 max-w-3xl mx-auto italic font-lora">
+        An Interactive Scholarly Compendium of the Great God
+      </p>
+      <div className="mt-10 flex flex-wrap justify-center gap-4">
+        <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">Scripture-Anchored</span>
+        <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">{SHIVA_FORMS.length} Primary Forms</span>
+        <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">Historical Timeline</span>
+      </div>
     </div>
   </header>
 );
@@ -30,50 +33,50 @@ const FormCard: React.FC<{
   isGenerating: boolean;
 }> = ({ form, onOpen, imageUrl, onGenerate, isGenerating }) => (
   <div 
-    className="group relative bg-stone-900 border border-stone-800 rounded-xl cursor-pointer transition-all hover:border-amber-700/50 hover:bg-stone-800/50 overflow-hidden flex flex-col"
+    className="group relative bg-stone-900/40 border border-stone-800 rounded-2xl cursor-pointer transition-all hover:border-amber-700/50 hover:bg-stone-800/60 overflow-hidden flex flex-col shadow-xl"
     onClick={() => onOpen(form)}
   >
-    <div className="relative h-64 bg-stone-950 overflow-hidden">
+    <div className="relative h-72 bg-stone-950 overflow-hidden">
       {imageUrl ? (
         <img 
           src={imageUrl} 
           alt={form.nameIAST} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
       ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center p-6 text-center">
-          <i className={`fa-solid ${isGenerating ? 'fa-spinner fa-spin' : 'fa-image'} text-stone-700 text-4xl mb-4`}></i>
+        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-stone-900/20">
+          <i className={`fa-solid ${isGenerating ? 'fa-spinner fa-spin' : 'fa-image'} text-stone-800 text-5xl mb-6`}></i>
           {!isGenerating && (
             <button 
               onClick={(e) => {
                 e.stopPropagation();
                 onGenerate(form.id, form.imagePrompts.museumStyle);
               }}
-              className="bg-stone-800 hover:bg-amber-900 text-stone-400 hover:text-amber-100 text-[10px] uppercase tracking-widest px-4 py-2 rounded-full border border-stone-700 transition-colors"
+              className="bg-stone-800 hover:bg-amber-900 text-stone-400 hover:text-amber-100 text-[10px] uppercase tracking-[0.2em] px-6 py-3 rounded-full border border-stone-700 transition-all active:scale-95"
             >
               Visualize Form
             </button>
           )}
         </div>
       )}
-      <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-60"></div>
-      <div className="absolute bottom-4 left-4">
-        <span className="text-[10px] font-bold text-amber-500 uppercase tracking-widest bg-black/60 px-2 py-0.5 rounded">{form.classification}</span>
+      <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-80"></div>
+      <div className="absolute bottom-6 left-6">
+        <span className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em] bg-black/70 px-3 py-1 rounded-md backdrop-blur-sm border border-white/5">{form.classification}</span>
       </div>
     </div>
 
-    <div className="p-6 flex-1 flex flex-col">
+    <div className="p-8 flex-1 flex flex-col">
       <div className="mb-4">
-        <h3 className="text-2xl font-bold text-stone-100 devanagari">{form.nameDevanagari}</h3>
-        <p className="text-amber-200/70 italic text-sm">{form.nameIAST}</p>
+        <h3 className="text-3xl font-bold text-stone-100 font-devanagari mb-1">{form.nameDevanagari}</h3>
+        <p className="text-amber-200/60 italic text-sm font-lora">{form.nameIAST}</p>
       </div>
-      <p className="text-stone-400 line-clamp-2 text-sm mb-6 leading-relaxed flex-1">
+      <p className="text-stone-400 line-clamp-3 text-base mb-8 leading-relaxed flex-1 font-lora">
         {form.summary}
       </p>
-      <div className="flex justify-between items-center mt-auto">
-        <span className="text-[10px] text-stone-600 uppercase tracking-tighter">{form.era.split(' ')[0]}</span>
-        <button className="text-amber-500 text-xs font-bold uppercase tracking-wider group-hover:underline">
-          Deep Dive <i className="fa-solid fa-arrow-right ml-1"></i>
+      <div className="flex justify-between items-center pt-6 border-t border-stone-800/50">
+        <span className="text-[10px] text-stone-600 uppercase tracking-widest">{form.era.split(' ')[0]}</span>
+        <button className="text-amber-500 text-xs font-bold uppercase tracking-widest group-hover:text-amber-400 flex items-center gap-2">
+          Deep Dive <i className="fa-solid fa-arrow-right-long transition-transform group-hover:translate-x-1"></i>
         </button>
       </div>
     </div>
@@ -81,105 +84,93 @@ const FormCard: React.FC<{
 );
 
 const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () => void }> = ({ form, imageUrl, onClose }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-md overflow-y-auto">
-    <div className="bg-stone-900 border border-stone-700 w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl relative">
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl overflow-y-auto" onClick={onClose}>
+    <div 
+      className="bg-stone-900 border border-stone-700 w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-300" 
+      onClick={e => e.stopPropagation()}
+    >
       <button 
         onClick={onClose}
-        className="absolute top-4 right-4 text-stone-400 hover:text-white z-10 text-2xl bg-black/40 w-10 h-10 rounded-full flex items-center justify-center"
+        className="absolute top-6 right-6 text-stone-400 hover:text-white z-10 text-2xl bg-black/60 w-12 h-12 rounded-full flex items-center justify-center transition-all hover:rotate-90 border border-white/10"
       >
         <i className="fa-solid fa-xmark"></i>
       </button>
 
       <div className="md:flex h-full max-h-[90vh] overflow-y-auto">
         {/* Left Column: Visual & Stats */}
-        <div className="md:w-2/5 bg-stone-950 border-r border-stone-800">
-          <div className="aspect-square bg-stone-900 relative">
+        <div className="md:w-5/12 bg-stone-950 border-r border-stone-800/50">
+          <div className="aspect-[4/5] bg-stone-900 relative">
             {imageUrl ? (
               <img src={imageUrl} alt={form.nameIAST} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-stone-700 italic">
-                No visual generated yet
+              <div className="w-full h-full flex items-center justify-center text-stone-800 italic p-12 text-center">
+                Visual representation not yet generated.
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 to-transparent"></div>
-            <div className="absolute bottom-6 left-6 right-6">
-              <h2 className="text-4xl font-bold text-stone-100 devanagari">{form.nameDevanagari}</h2>
-              <p className="text-amber-200/80 italic text-xl">{form.nameIAST}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-90"></div>
+            <div className="absolute bottom-8 left-8 right-8">
+              <h2 className="text-5xl font-bold text-stone-100 font-devanagari mb-2">{form.nameDevanagari}</h2>
+              <p className="text-amber-200/80 italic text-2xl font-lora">{form.nameIAST}</p>
             </div>
           </div>
           
-          <div className="p-8 space-y-6">
-             <section>
-               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-widest mb-2 border-b border-stone-800 pb-1">Meaning</h4>
-               <p className="text-stone-300 text-sm">{form.meaning}</p>
+          <div className="p-10 space-y-8">
+             <section className="border-l-2 border-amber-900/50 pl-6">
+               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-[0.3em] mb-3">Etymology</h4>
+               <p className="text-stone-300 text-base leading-relaxed">{form.meaning}</p>
              </section>
-             <section>
-               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-widest mb-2 border-b border-stone-800 pb-1">Era</h4>
-               <p className="text-stone-300 text-sm">{form.era}</p>
+             <section className="border-l-2 border-amber-900/50 pl-6">
+               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-[0.3em] mb-3">Historical Era</h4>
+               <p className="text-stone-300 text-base">{form.era}</p>
              </section>
-             <section>
-               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-widest mb-2 border-b border-stone-800 pb-1">Primary Scripture</h4>
-               <p className="text-stone-300 text-sm italic">{form.scriptureRef}</p>
+             <section className="border-l-2 border-amber-900/50 pl-6">
+               <h4 className="text-stone-500 font-bold uppercase text-[10px] tracking-[0.3em] mb-3">Scriptural Anchor</h4>
+               <p className="text-stone-400 text-base italic leading-relaxed">{form.scriptureRef}</p>
              </section>
           </div>
         </div>
 
         {/* Right Column: Detailed Info */}
-        <div className="md:w-3/5 p-8 md:p-12 space-y-10 bg-stone-900/50">
+        <div className="md:w-7/12 p-10 md:p-16 space-y-12 bg-stone-900/30">
           <section>
-            <h3 className="text-2xl font-bold text-amber-500 mb-6 cinzel flex items-center">
-              <span className="w-8 h-px bg-amber-900 mr-4"></span> Narrative & History
+            <h3 className="text-3xl font-bold text-amber-500 mb-8 font-cinzel flex items-center gap-6">
+              Narrative & Historical Summary
+              <div className="h-px flex-1 bg-amber-900/30"></div>
             </h3>
-            <p className="text-stone-300 leading-relaxed text-lg">{form.summary}</p>
+            <p className="text-stone-300 leading-relaxed text-xl font-light">{form.summary}</p>
           </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            <section className="bg-stone-950/40 p-6 rounded-xl border border-stone-800">
-              <h4 className="text-amber-400/80 font-bold uppercase text-xs tracking-widest mb-4 flex items-center">
-                <i className="fa-solid fa-om mr-3"></i> Philosophical Aspect
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-12">
+            <section className="bg-black/20 p-8 rounded-2xl border border-stone-800 shadow-inner">
+              <h4 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-6 flex items-center">
+                <i className="fa-solid fa-om mr-4 text-amber-600"></i> Philosophy
               </h4>
               <p className="text-stone-400 text-sm leading-relaxed">{form.symbolism}</p>
             </section>
-            <section className="bg-stone-950/40 p-6 rounded-xl border border-stone-800">
-              <h4 className="text-amber-400/80 font-bold uppercase text-xs tracking-widest mb-4 flex items-center">
-                <i className="fa-solid fa-sculpture mr-3"></i> Iconography
+            <section className="bg-black/20 p-8 rounded-2xl border border-stone-800 shadow-inner">
+              <h4 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-6 flex items-center">
+                <i className="fa-solid fa-eye mr-4 text-amber-600"></i> Iconography
               </h4>
-              <ul className="text-stone-400 text-sm space-y-2">
-                <li><span className="text-stone-600 font-bold mr-2">Weapons:</span> {form.iconography.weapons.join(', ')}</li>
-                <li><span className="text-stone-600 font-bold mr-2">Posture:</span> {form.iconography.posture}</li>
-                <li><span className="text-stone-600 font-bold mr-2">Attributes:</span> {form.iconography.attributes.join(', ')}</li>
-                {form.iconography.vahanas.length > 0 && <li><span className="text-stone-600 font-bold mr-2">Vahana:</span> {form.iconography.vahanas.join(', ')}</li>}
+              <ul className="text-stone-400 text-sm space-y-3">
+                <li className="flex gap-2"><span className="text-stone-600 font-bold whitespace-nowrap">Weapons:</span> {form.iconography.weapons.join(', ')}</li>
+                <li className="flex gap-2"><span className="text-stone-600 font-bold whitespace-nowrap">Posture:</span> {form.iconography.posture}</li>
+                <li className="flex gap-2"><span className="text-stone-600 font-bold whitespace-nowrap">Attributes:</span> {form.iconography.attributes.join(', ')}</li>
+                {form.iconography.vahanas.length > 0 && <li className="flex gap-2"><span className="text-stone-600 font-bold whitespace-nowrap">Vahana:</span> {form.iconography.vahanas.join(', ')}</li>}
               </ul>
             </section>
           </div>
 
           <section>
-             <h4 className="text-amber-400/80 font-bold uppercase text-xs tracking-widest mb-4 flex items-center">
-                <i className="fa-solid fa-gopuram mr-3"></i> Sacred Geography
+             <h4 className="text-amber-400 font-bold uppercase text-xs tracking-widest mb-6 flex items-center gap-4">
+                <i className="fa-solid fa-location-dot text-amber-600"></i> Sacred Geography
               </h4>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-3">
                 {form.temples.map(t => (
-                  <span key={t} className="px-3 py-1 bg-amber-900/20 text-amber-300/80 border border-amber-900/40 rounded-full text-xs">
+                  <span key={t} className="px-5 py-2 bg-amber-950/20 text-amber-400 border border-amber-900/30 rounded-xl text-xs backdrop-blur-sm transition-all hover:bg-amber-900/30">
                     {t}
                   </span>
                 ))}
               </div>
-          </section>
-
-          <section className="bg-black/40 p-6 rounded-xl border border-stone-800">
-            <h4 className="text-stone-500 font-bold mb-4 flex items-center text-xs uppercase tracking-widest">
-              <i className="fa-solid fa-code mr-3 text-amber-700"></i> AI Generation Metadata
-            </h4>
-            <div className="space-y-4 text-[10px]">
-              <div>
-                <span className="text-stone-600 font-bold block mb-1">EDUCATIONAL DIAGRAM STYLE:</span>
-                <p className="text-stone-500 italic pl-3 border-l border-stone-800">{form.imagePrompts.educationalDiagram}</p>
-              </div>
-              <div>
-                <span className="text-stone-600 font-bold block mb-1">CINEMATIC DEVOTIONAL STYLE:</span>
-                <p className="text-stone-500 italic pl-3 border-l border-stone-800">{form.imagePrompts.cinematicStyle}</p>
-              </div>
-            </div>
           </section>
         </div>
       </div>
@@ -188,124 +179,28 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () =>
 );
 
 const Timeline: React.FC = () => (
-  <section className="py-24 px-6 max-w-5xl mx-auto">
-    <div className="text-center mb-16">
-      <h2 className="text-4xl font-bold text-amber-500 mb-4 cinzel">Evolution Timeline</h2>
-      <p className="text-stone-500">The historical journey of Shaivite thought through the millennia.</p>
+  <section className="py-32 px-6 max-w-6xl mx-auto">
+    <div className="text-center mb-24">
+      <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel">Evolutionary Chronology</h2>
+      <p className="text-stone-500 max-w-2xl mx-auto text-lg italic">The development of Shaivite identity from early Vedic Rudra to modern philosophical monism.</p>
     </div>
-    <div className="relative border-l-2 border-stone-800 ml-4 md:ml-0 md:left-1/2">
+    <div className="relative border-l border-stone-800 md:border-l-0">
+      <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-800"></div>
       {TIMELINE_DATA.map((item, idx) => (
-        <div key={idx} className={`mb-16 relative ${idx % 2 === 0 ? 'md:left-[-50%] md:pr-12 text-right' : 'md:left-[0%] md:pl-12 text-left'}`}>
-          <div className="absolute top-2 w-4 h-4 bg-amber-600 rounded-full border-4 border-stone-950 -left-[9px] md:left-auto md:right-[-9px] translate-x-0 md:translate-x-1/2 shadow-[0_0_10px_rgba(217,119,6,0.5)]" />
-          <div className={`ml-8 md:ml-0 bg-stone-900/50 border border-stone-800 p-8 rounded-2xl inline-block w-full md:w-96 shadow-2xl backdrop-blur-sm transition-all hover:border-amber-900/50`}>
-            <span className="text-amber-600 font-bold text-[10px] uppercase tracking-[0.2em]">{item.era}</span>
-            <p className="text-stone-200 mt-4 text-base leading-relaxed font-light">{item.event}</p>
+        <div key={idx} className={`mb-20 relative flex flex-col md:flex-row items-center ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+          <div className="absolute left-[-9px] md:left-1/2 top-0 md:ml-[-10px] w-5 h-5 bg-amber-600 rounded-full border-4 border-stone-950 shadow-[0_0_15px_rgba(180,83,9,0.4)] z-10" />
+          <div className="md:w-1/2 px-10">
+            <div className={`bg-stone-900/50 border border-stone-800 p-10 rounded-3xl shadow-2xl backdrop-blur-sm transition-all hover:border-amber-900/30 ${idx % 2 === 0 ? 'text-left md:text-right' : 'text-left'}`}>
+              <span className="text-amber-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">{item.era}</span>
+              <p className="text-stone-200 text-lg leading-relaxed font-light">{item.event}</p>
+            </div>
           </div>
+          <div className="md:w-1/2"></div>
         </div>
       ))}
     </div>
   </section>
 );
-
-const NamesGrid: React.FC = () => {
-  const [search, setSearch] = useState('');
-  const filtered = NAMES_108.filter(n => n.name.toLowerCase().includes(search.toLowerCase()) || n.meaning.toLowerCase().includes(search.toLowerCase()));
-
-  return (
-    <section className="py-24 px-6 bg-stone-950 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-5">
-        <div className="grid grid-cols-10 gap-4 rotate-12 -translate-y-20">
-          {Array.from({length: 100}).map((_, i) => (
-            <i key={i} className="fa-solid fa-om text-3xl text-amber-900"></i>
-          ))}
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-          <div>
-            <h2 className="text-4xl font-bold text-amber-500 mb-2 cinzel">The 108 Names</h2>
-            <p className="text-stone-500">The Ashtottara Shatanamavali — meanings and etymology.</p>
-          </div>
-          <div className="relative w-full md:w-96">
-            <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-stone-600"></i>
-            <input 
-              type="text" 
-              placeholder="Filter names or meanings..." 
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-stone-900 border border-stone-800 text-stone-200 pl-12 pr-4 py-4 rounded-xl focus:outline-none focus:border-amber-700 text-sm transition-all"
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          {filtered.map((n, i) => (
-            <div key={i} className="bg-stone-900/40 border border-stone-800 p-5 rounded-xl hover:bg-stone-800/60 transition-all hover:-translate-y-1">
-              <h4 className="text-amber-100 font-bold text-lg mb-1">{n.name}</h4>
-              <p className="text-stone-500 text-[10px] leading-tight uppercase tracking-wider">{n.meaning}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const ScholarChat: React.FC = () => {
-  const [query, setQuery] = useState('');
-  const [response, setResponse] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleAsk = async () => {
-    if (!query.trim()) return;
-    setLoading(true);
-    const result = await askScholar(query);
-    setResponse(result);
-    setLoading(false);
-  };
-
-  return (
-    <section className="py-24 px-6 bg-stone-900/20 border-t border-stone-800">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <div className="inline-block p-3 bg-amber-900/20 rounded-full mb-6 border border-amber-900/40">
-            <i className="fa-solid fa-scroll text-amber-500 text-2xl"></i>
-          </div>
-          <h2 className="text-4xl font-bold text-amber-500 mb-4 cinzel">The Scholar's Gateway</h2>
-          <p className="text-stone-400 text-lg">Direct inquiry into scriptural nuances and historical evidence via the AI Knowledge Stream.</p>
-        </div>
-        
-        <div className="bg-stone-950 p-2 rounded-2xl border border-stone-800 shadow-2xl flex flex-col sm:flex-row gap-2 mb-8">
-          <input 
-            type="text" 
-            placeholder="e.g. Discuss the archaeological evidence of Pashupati seals in Mohenjo-Daro."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleAsk()}
-            className="flex-1 bg-transparent px-6 py-4 text-stone-200 focus:outline-none text-base"
-          />
-          <button 
-            onClick={handleAsk}
-            disabled={loading}
-            className="bg-amber-700 hover:bg-amber-600 text-white px-8 py-4 rounded-xl font-bold transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-          >
-            {loading ? <i className="fa-solid fa-spinner fa-spin"></i> : <i className="fa-solid fa-paper-plane"></i>}
-            <span>{loading ? 'Consulting...' : 'Inquire'}</span>
-          </button>
-        </div>
-
-        {response && (
-          <div className="bg-stone-950 p-10 rounded-2xl border border-amber-900/20 shadow-inner max-h-[600px] overflow-y-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="prose prose-invert max-w-none text-stone-300 text-lg leading-relaxed whitespace-pre-wrap font-light">
-              {response}
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
-  );
-};
-
-// --- Main App Component ---
 
 const App: React.FC = () => {
   const [selectedForm, setSelectedForm] = useState<ShivaForm | null>(null);
@@ -319,6 +214,7 @@ const App: React.FC = () => {
   }, [filter]);
 
   const handleGenerateImage = async (id: string, prompt: string) => {
+    if (generatingIds.has(id)) return;
     setGeneratingIds(prev => new Set(prev).add(id));
     const url = await generateFormVisual(prompt);
     if (url) {
@@ -332,23 +228,23 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-200 selection:bg-amber-900 selection:text-white">
+    <div className="min-h-screen bg-stone-950 text-stone-200">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-6 py-20">
+      <main className="max-w-7xl mx-auto px-6 py-24">
         {/* Manifestations Section */}
-        <section id="avatars">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <section className="mb-32">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-20 gap-10 text-center md:text-left">
             <div>
-              <h2 className="text-4xl font-bold text-amber-500 mb-2 cinzel">Divine Manifestations</h2>
-              <p className="text-stone-500">Exploring {SHIVA_FORMS.length} distinct forms from across epochs.</p>
+              <h2 className="text-5xl font-bold text-amber-500 mb-4 font-cinzel">The Pantheon of Forms</h2>
+              <p className="text-stone-500 text-lg">Curated dataset of {SHIVA_FORMS.length} historical and scriptural manifestations.</p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap justify-center gap-3">
               {['All', ...Object.values(FormClassification)].map(c => (
                 <button
                   key={c}
                   onClick={() => setFilter(c as any)}
-                  className={`px-5 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] transition-all border ${filter === c ? 'bg-amber-700 border-amber-600 text-white shadow-[0_0_15px_rgba(180,83,9,0.3)]' : 'bg-stone-900 border-stone-800 text-stone-500 hover:border-stone-600'}`}
+                  className={`px-6 py-2 rounded-full text-[10px] font-bold tracking-[0.2em] transition-all border ${filter === c ? 'bg-amber-700 border-amber-600 text-white shadow-lg' : 'bg-stone-900/50 border-stone-800 text-stone-500 hover:text-stone-300 hover:border-stone-600'}`}
                 >
                   {c.toUpperCase()}
                 </button>
@@ -356,7 +252,7 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {filteredForms.map(f => (
               <FormCard 
                 key={f.id} 
@@ -371,40 +267,37 @@ const App: React.FC = () => {
         </section>
 
         <Timeline />
-        <NamesGrid />
         
-        {/* Glossary Section */}
-        <section className="py-24 bg-stone-900/10 rounded-3xl border border-stone-800 px-12">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-amber-500 mb-4 cinzel">Metaphysical Glossary</h2>
-            <p className="text-stone-500">Key terminologies of Shaiva philosophy.</p>
+        {/* Enhanced Glossary Section */}
+        <section className="py-32 bg-amber-950/5 rounded-[3rem] border border-stone-800/50 px-8 md:px-20 mb-32">
+          <div className="text-center mb-24">
+            <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel">Ontological Glossary</h2>
+            <p className="text-stone-500 text-lg">Essential concepts of non-dualist and dualist Shaivite systems.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {GLOSSARY.map((item, idx) => (
-              <div key={idx} className="group p-8 rounded-2xl bg-stone-950 border border-stone-800 hover:border-amber-900/40 transition-all">
-                <div className="w-12 h-1 bg-amber-900 mb-6 group-hover:w-20 transition-all"></div>
-                <h4 className="text-amber-500 font-bold text-2xl mb-4 cinzel">{item.term}</h4>
-                <p className="text-stone-300 text-base mb-6 leading-relaxed font-light">{item.definition}</p>
-                <div className="text-[10px] text-stone-600 uppercase tracking-widest border-t border-stone-900 pt-6">
-                  <span className="text-amber-900 font-bold mr-2">Core Significance:</span> {item.significance}
+              <div key={idx} className="group p-10 rounded-3xl bg-stone-900/40 border border-stone-800 transition-all hover:bg-stone-900/60 hover:-translate-y-2">
+                <h4 className="text-amber-500 font-bold text-3xl mb-6 font-cinzel">{item.term}</h4>
+                <p className="text-stone-300 text-lg mb-8 leading-relaxed font-light">{item.definition}</p>
+                <div className="text-xs text-stone-500 border-t border-stone-800 pt-8 italic">
+                  <span className="text-amber-800 font-bold uppercase tracking-widest block mb-2 not-italic">Core Significance</span>
+                  {item.significance}
                 </div>
               </div>
             ))}
           </div>
         </section>
-
-        <ScholarChat />
       </main>
 
-      <footer className="bg-stone-950 border-t border-stone-900 py-20 px-6 text-center">
-        <div className="max-w-xl mx-auto">
-          <i className="fa-solid fa-om text-amber-900 text-5xl mb-8 opacity-40"></i>
-          <p className="text-stone-500 italic mb-6 text-lg">
-            "By knowing the Lord of the Universe, the One who is hidden in all beings like the film that rises on butter, by knowing the God who is the creator of the world and has many forms, one is released from all fetters."
+      <footer className="bg-stone-950 border-t border-stone-900 py-32 px-6 text-center">
+        <div className="max-w-2xl mx-auto">
+          <i className="fa-solid fa-om text-amber-900 text-6xl mb-10 opacity-30"></i>
+          <p className="text-stone-400 italic mb-10 text-xl font-lora leading-relaxed">
+            "Him the gods and the seers of old knew, and being filled with His spirit, they became immortal."
           </p>
-          <div className="h-px bg-stone-900 w-24 mx-auto mb-6"></div>
-          <p className="text-stone-700 text-xs uppercase tracking-widest">
-            Scholarly Mahadeva Compendium &copy; {new Date().getFullYear()} — Built for Indological Awareness
+          <div className="h-px bg-stone-900 w-32 mx-auto mb-10"></div>
+          <p className="text-stone-700 text-xs uppercase tracking-[0.5em] font-cinzel">
+            The Mahadeva Compendium &copy; {new Date().getFullYear()} — Dedicated to Academic Study
           </p>
         </div>
       </footer>
