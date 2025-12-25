@@ -2,7 +2,6 @@
 import React, { useState, useMemo } from 'react';
 import { SHIVA_FORMS, GLOSSARY, NAMES_108 } from './data';
 import { ShivaForm, FormClassification } from './types';
-import { generateFormVisual } from './geminiService';
 
 // --- Sub-components ---
 
@@ -12,7 +11,7 @@ const Header: React.FC = () => (
        <div className="w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-900 via-transparent to-transparent"></div>
     </div>
     <div className="relative z-10">
-      <h1 className="text-6xl md:text-8xl font-bold tracking-[0.2em] text-amber-500 mb-6 font-cinzel">MAHADEVA</h1>
+      <h1 className="text-6xl md:text-8xl font-bold tracking-[0.2em] text-amber-500 mb-6 font-cinzel uppercase">Mahadeva</h1>
       <p className="text-xl md:text-2xl text-stone-400 max-w-3xl mx-auto italic font-lora">
         An Interactive Scholarly Compendium of the Great God
       </p>
@@ -28,43 +27,21 @@ const Header: React.FC = () => (
 const FormCard: React.FC<{ 
   form: ShivaForm; 
   onOpen: (f: ShivaForm) => void;
-  imageUrlOverride: string | null;
-  onGenerate: (id: string, prompt: string) => void;
-  isGenerating: boolean;
-}> = ({ form, onOpen, imageUrlOverride, onGenerate, isGenerating }) => (
+}> = ({ form, onOpen }) => (
   <div 
     className="group relative bg-stone-900/40 border border-stone-800 rounded-2xl cursor-pointer transition-all hover:border-amber-700/50 hover:bg-stone-800/60 overflow-hidden flex flex-col shadow-xl"
     onClick={() => onOpen(form)}
   >
     <div className="relative h-72 bg-stone-950 overflow-hidden">
       <img 
-        src={imageUrlOverride || form.imageUrl} 
+        src={form.imageUrl} 
         alt={form.nameIAST} 
         className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         loading="lazy"
       />
-      {isGenerating && (
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
-          <i className="fa-solid fa-spinner fa-spin text-amber-500 text-3xl"></i>
-        </div>
-      )}
       <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-80"></div>
       <div className="absolute bottom-6 left-6 flex gap-2">
         <span className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em] bg-black/70 px-3 py-1 rounded-md backdrop-blur-sm border border-white/5">{form.classification}</span>
-      </div>
-      
-      {/* AI Visualization Trigger - Only if user wants to override */}
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            onGenerate(form.id, form.imagePrompts.cinematicStyle);
-          }}
-          className="bg-black/60 hover:bg-amber-900 text-amber-400 p-2 rounded-full border border-amber-900/30 backdrop-blur-md"
-          title="Re-visualize with AI"
-        >
-          <i className="fa-solid fa-wand-sparkles text-sm"></i>
-        </button>
       </div>
     </div>
 
@@ -86,7 +63,7 @@ const FormCard: React.FC<{
   </div>
 );
 
-const Modal: React.FC<{ form: ShivaForm; imageUrl: string; onClose: () => void }> = ({ form, imageUrl, onClose }) => (
+const Modal: React.FC<{ form: ShivaForm; onClose: () => void }> = ({ form, onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl overflow-y-auto" onClick={onClose}>
     <div 
       className="bg-stone-900 border border-stone-700 w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-300" 
@@ -102,7 +79,7 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string; onClose: () => void }
       <div className="md:flex h-full max-h-[90vh] overflow-y-auto">
         <div className="md:w-5/12 bg-stone-950 border-r border-stone-800/50">
           <div className="aspect-[4/5] bg-stone-900 relative">
-            <img src={imageUrl} alt={form.nameIAST} className="w-full h-full object-cover" />
+            <img src={form.imageUrl} alt={form.nameIAST} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-90"></div>
             <div className="absolute bottom-8 left-8 right-8">
               <h2 className="text-5xl font-bold text-stone-100 font-devanagari mb-2">{form.nameDevanagari}</h2>
@@ -195,38 +172,21 @@ const MasterNames: React.FC = () => (
 const App: React.FC = () => {
   const [selectedForm, setSelectedForm] = useState<ShivaForm | null>(null);
   const [filter, setFilter] = useState<FormClassification | 'All'>('All');
-  const [generatedImages, setGeneratedImages] = useState<Record<string, string>>({});
-  const [generatingIds, setGeneratingIds] = useState<Set<string>>(new Set());
 
   const filteredForms = useMemo(() => {
     if (filter === 'All') return SHIVA_FORMS;
     return SHIVA_FORMS.filter(f => f.classification === filter);
   }, [filter]);
 
-  const handleGenerateImage = async (id: string, prompt: string) => {
-    if (generatingIds.has(id)) return;
-    setGeneratingIds(prev => new Set(prev).add(id));
-    const url = await generateFormVisual(prompt);
-    if (url) {
-      setGeneratedImages(prev => ({ ...prev, [id]: url }));
-    }
-    setGeneratingIds(prev => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
-  };
-
   return (
     <div className="min-h-screen bg-stone-950 text-stone-200">
       <Header />
       
       <main className="max-w-7xl mx-auto px-6 py-24">
-        {/* Manifestations Section */}
         <section className="mb-32">
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-20 gap-10 text-center md:text-left">
             <div>
-              <h2 className="text-5xl font-bold text-amber-500 mb-4 font-cinzel">The Pantheon of Forms</h2>
+              <h2 className="text-5xl font-bold text-amber-500 mb-4 font-cinzel uppercase">The Pantheon of Forms</h2>
               <p className="text-stone-500 text-lg">Curated dataset of historical and scriptural manifestations.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
@@ -248,9 +208,6 @@ const App: React.FC = () => {
                 key={f.id} 
                 form={f} 
                 onOpen={setSelectedForm} 
-                imageUrlOverride={generatedImages[f.id] || null}
-                isGenerating={generatingIds.has(f.id)}
-                onGenerate={handleGenerateImage}
               />
             ))}
           </div>
@@ -258,16 +215,15 @@ const App: React.FC = () => {
 
         <MasterNames />
         
-        {/* Enhanced Glossary Section */}
         <section className="py-32 bg-amber-950/5 rounded-[3rem] border border-stone-800/50 px-8 md:px-20 mb-32">
           <div className="text-center mb-24">
-            <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel">Ontological Glossary</h2>
+            <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel uppercase">Ontological Glossary</h2>
             <p className="text-stone-500 text-lg">Essential concepts of non-dualist and dualist Shaivite systems.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {GLOSSARY.map((item, idx) => (
               <div key={idx} className="group p-10 rounded-3xl bg-stone-900/40 border border-stone-800 transition-all hover:bg-stone-900/60 hover:-translate-y-2">
-                <h4 className="text-amber-500 font-bold text-3xl mb-6 font-cinzel">{item.term}</h4>
+                <h4 className="text-amber-500 font-bold text-3xl mb-6 font-cinzel uppercase">{item.term}</h4>
                 <p className="text-stone-300 text-lg mb-8 leading-relaxed font-light">{item.definition}</p>
                 <div className="text-xs text-stone-500 border-t border-stone-800 pt-8 italic">
                   <span className="text-amber-800 font-bold uppercase tracking-widest block mb-2 not-italic">Core Significance</span>
@@ -295,7 +251,6 @@ const App: React.FC = () => {
       {selectedForm && (
         <Modal 
           form={selectedForm} 
-          imageUrl={generatedImages[selectedForm.id] || selectedForm.imageUrl} 
           onClose={() => setSelectedForm(null)} 
         />
       )}
