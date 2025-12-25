@@ -1,8 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
-import { SHIVA_FORMS, GLOSSARY, NAMES_108, TIMELINE_DATA } from './data';
+import { SHIVA_FORMS, GLOSSARY, NAMES_108 } from './data';
 import { ShivaForm, FormClassification } from './types';
-import { askScholar, generateFormVisual } from './geminiService';
+import { generateFormVisual } from './geminiService';
 
 // --- Sub-components ---
 
@@ -19,7 +19,7 @@ const Header: React.FC = () => (
       <div className="mt-10 flex flex-wrap justify-center gap-4">
         <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">Scripture-Anchored</span>
         <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">{SHIVA_FORMS.length} Primary Forms</span>
-        <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">Historical Timeline</span>
+        <span className="px-4 py-2 bg-amber-950/40 text-amber-200 border border-amber-900/50 rounded-full text-[10px] uppercase tracking-widest backdrop-blur-sm">Ontological Glossary</span>
       </div>
     </div>
   </header>
@@ -28,40 +28,43 @@ const Header: React.FC = () => (
 const FormCard: React.FC<{ 
   form: ShivaForm; 
   onOpen: (f: ShivaForm) => void;
-  imageUrl: string | null;
+  imageUrlOverride: string | null;
   onGenerate: (id: string, prompt: string) => void;
   isGenerating: boolean;
-}> = ({ form, onOpen, imageUrl, onGenerate, isGenerating }) => (
+}> = ({ form, onOpen, imageUrlOverride, onGenerate, isGenerating }) => (
   <div 
     className="group relative bg-stone-900/40 border border-stone-800 rounded-2xl cursor-pointer transition-all hover:border-amber-700/50 hover:bg-stone-800/60 overflow-hidden flex flex-col shadow-xl"
     onClick={() => onOpen(form)}
   >
     <div className="relative h-72 bg-stone-950 overflow-hidden">
-      {imageUrl ? (
-        <img 
-          src={imageUrl} 
-          alt={form.nameIAST} 
-          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-        />
-      ) : (
-        <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center bg-stone-900/20">
-          <i className={`fa-solid ${isGenerating ? 'fa-spinner fa-spin' : 'fa-image'} text-stone-800 text-5xl mb-6`}></i>
-          {!isGenerating && (
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                onGenerate(form.id, form.imagePrompts.museumStyle);
-              }}
-              className="bg-stone-800 hover:bg-amber-900 text-stone-400 hover:text-amber-100 text-[10px] uppercase tracking-[0.2em] px-6 py-3 rounded-full border border-stone-700 transition-all active:scale-95"
-            >
-              Visualize Form
-            </button>
-          )}
+      <img 
+        src={imageUrlOverride || form.imageUrl} 
+        alt={form.nameIAST} 
+        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+        loading="lazy"
+      />
+      {isGenerating && (
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+          <i className="fa-solid fa-spinner fa-spin text-amber-500 text-3xl"></i>
         </div>
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-transparent to-transparent opacity-80"></div>
-      <div className="absolute bottom-6 left-6">
+      <div className="absolute bottom-6 left-6 flex gap-2">
         <span className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em] bg-black/70 px-3 py-1 rounded-md backdrop-blur-sm border border-white/5">{form.classification}</span>
+      </div>
+      
+      {/* AI Visualization Trigger - Only if user wants to override */}
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button 
+          onClick={(e) => {
+            e.stopPropagation();
+            onGenerate(form.id, form.imagePrompts.cinematicStyle);
+          }}
+          className="bg-black/60 hover:bg-amber-900 text-amber-400 p-2 rounded-full border border-amber-900/30 backdrop-blur-md"
+          title="Re-visualize with AI"
+        >
+          <i className="fa-solid fa-wand-sparkles text-sm"></i>
+        </button>
       </div>
     </div>
 
@@ -83,7 +86,7 @@ const FormCard: React.FC<{
   </div>
 );
 
-const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () => void }> = ({ form, imageUrl, onClose }) => (
+const Modal: React.FC<{ form: ShivaForm; imageUrl: string; onClose: () => void }> = ({ form, imageUrl, onClose }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-xl overflow-y-auto" onClick={onClose}>
     <div 
       className="bg-stone-900 border border-stone-700 w-full max-w-6xl rounded-3xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in-95 duration-300" 
@@ -99,13 +102,7 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () =>
       <div className="md:flex h-full max-h-[90vh] overflow-y-auto">
         <div className="md:w-5/12 bg-stone-950 border-r border-stone-800/50">
           <div className="aspect-[4/5] bg-stone-900 relative">
-            {imageUrl ? (
-              <img src={imageUrl} alt={form.nameIAST} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-stone-800 italic p-12 text-center">
-                Visual representation not yet generated.
-              </div>
-            )}
+            <img src={imageUrl} alt={form.nameIAST} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-transparent opacity-90"></div>
             <div className="absolute bottom-8 left-8 right-8">
               <h2 className="text-5xl font-bold text-stone-100 font-devanagari mb-2">{form.nameDevanagari}</h2>
@@ -174,30 +171,6 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () =>
       </div>
     </div>
   </div>
-);
-
-const Timeline: React.FC = () => (
-  <section className="py-32 px-6 max-w-6xl mx-auto">
-    <div className="text-center mb-24">
-      <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel">Evolutionary Chronology</h2>
-      <p className="text-stone-500 max-w-2xl mx-auto text-lg italic">The development of Shaivite identity from early Vedic Rudra to modern philosophical monism.</p>
-    </div>
-    <div className="relative border-l border-stone-800 md:border-l-0">
-      <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-stone-800"></div>
-      {TIMELINE_DATA.map((item, idx) => (
-        <div key={idx} className={`mb-20 relative flex flex-col md:flex-row items-center ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-          <div className="absolute left-[-9px] md:left-1/2 top-0 md:ml-[-10px] w-5 h-5 bg-amber-600 rounded-full border-4 border-stone-950 shadow-[0_0_15px_rgba(180,83,9,0.4)] z-10" />
-          <div className="md:w-1/2 px-10">
-            <div className={`bg-stone-900/50 border border-stone-800 p-10 rounded-3xl shadow-2xl backdrop-blur-sm transition-all hover:border-amber-900/30 ${idx % 2 === 0 ? 'text-left md:text-right' : 'text-left'}`}>
-              <span className="text-amber-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-4 block">{item.era}</span>
-              <p className="text-stone-200 text-lg leading-relaxed font-light">{item.event}</p>
-            </div>
-          </div>
-          <div className="md:w-1/2"></div>
-        </div>
-      ))}
-    </div>
-  </section>
 );
 
 const MasterNames: React.FC = () => (
@@ -275,7 +248,7 @@ const App: React.FC = () => {
                 key={f.id} 
                 form={f} 
                 onOpen={setSelectedForm} 
-                imageUrl={generatedImages[f.id] || null}
+                imageUrlOverride={generatedImages[f.id] || null}
                 isGenerating={generatingIds.has(f.id)}
                 onGenerate={handleGenerateImage}
               />
@@ -283,7 +256,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        <Timeline />
         <MasterNames />
         
         {/* Enhanced Glossary Section */}
@@ -323,7 +295,7 @@ const App: React.FC = () => {
       {selectedForm && (
         <Modal 
           form={selectedForm} 
-          imageUrl={generatedImages[selectedForm.id] || null} 
+          imageUrl={generatedImages[selectedForm.id] || selectedForm.imageUrl} 
           onClose={() => setSelectedForm(null)} 
         />
       )}

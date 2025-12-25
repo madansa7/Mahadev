@@ -21,6 +21,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Arudra Darisanam', 'Maha Shivaratri'],
     era: TimelineEra.MEDIEVAL,
     relatedFigures: ['Kali (competitor in dance)', 'Patanjali'],
+    imageUrl: 'https://images.unsplash.com/photo-1632766035049-53b924976c66?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A high-resolution photograph of a Chola dynasty bronze Nataraja statue from the 11th century, intricate lost-wax casting details, patina, museum lighting, black background.',
       cinematicStyle: 'A divine cinematic visualization of Lord Shiva as Nataraja performing the Tandava amidst a swirling galaxy of stars and cosmic fire, hyper-realistic, 8k, golden lighting.',
@@ -46,6 +47,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Bhairava Ashtami'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Bhairavi', 'Saptamatrikas'],
+    imageUrl: 'https://images.unsplash.com/photo-1636113847250-983b6329c0fc?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A dark stone sculpture of Kala Bhairava with a dog, detailed carvings of ornaments and skulls, 12th century Hoysala style, museum spotlighting.',
       cinematicStyle: 'A dark, intense cinematic scene of Bhairava standing guard at the gates of Kashi under a blood-red moon, surrounded by shadows and a black dog, ethereal smoke.',
@@ -71,6 +73,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Veerabhadra Jayanti'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Bhadrakali', 'Daksha Prajapati'],
+    imageUrl: 'https://images.unsplash.com/photo-1590050752117-23a9d7fc20c3?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A monumental Vijayanagara style stone pillar carving of Veerabhadra at Lepakshi, intricate armor details, warrior stance, warm sepia lighting.',
       cinematicStyle: 'A high-fantasy cinematic depiction of Veerabhadra rising from Shiva\'s hair, a giant of shadows and fire, dual wielding swords against an army of gods.',
@@ -96,6 +99,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Maha Shivaratri'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Halahala poison', 'Kurma Avatar'],
+    imageUrl: 'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A delicate Pahari miniature painting of Shiva drinking the Halahala poison, vibrant blue throat, surrounded by gods and demons in the background.',
       cinematicStyle: 'Close-up of Neelkantha\'s face as a glowing indigo luminescence spreads through his throat, eyes filled with infinite compassion, cinematic blue lighting.',
@@ -121,6 +125,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Karthigai Deepam'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Maya Danava', 'Brahma (Charioteer)'],
+    imageUrl: 'https://images.unsplash.com/photo-1626014303757-64035822364c?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A bronze sculpture of Tripurantaka in a dynamic archer pose, Chola style, capturing the tension of the bow, museum grade patina.',
       cinematicStyle: 'An epic wide-angle shot of Shiva as Tripurantaka standing on a golden celestial chariot, launching a flaming arrow into three overlapping cities in the sky.',
@@ -146,6 +151,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Bhasma Aarti'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Mahakali', 'Yama'],
+    imageUrl: 'https://images.unsplash.com/photo-1621251711202-0e98031e4e73?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A black obsidian sculpture of Mahakala, fierce features, ancient Tantric style, high contrast lighting emphasizing the depth of the stone.',
       cinematicStyle: 'A majestic and terrifying vision of Mahakala standing in a void where galaxies are dissolving into dust around him, the embodiment of entropy and time.',
@@ -171,6 +177,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Special Pradosha Pujas'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Narasimha', 'Pratyangira (his Shakti)'],
+    imageUrl: 'https://images.unsplash.com/photo-1604804364230-8ec34b679b3a?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'An unusual 13th-century stone sculpture of Sharabha pinning down Narasimha, intricate details of feathers and fur, museum lighting.',
       cinematicStyle: 'A grand cinematic combat scene between the golden Narasimha and the dark, winged Sharabha in a storm-filled sky, divine epic fantasy style.',
@@ -196,6 +203,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Shivaratri'],
     era: TimelineEra.VEDIC,
     relatedFigures: ['Nandi', 'Pashupata sect'],
+    imageUrl: 'https://images.unsplash.com/photo-1598974357801-903126868661?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'A detailed macro photo of the Mohenjo-daro Pashupati seal, terracotta texture, weathered edges, museum exhibition style.',
       cinematicStyle: 'A serene forest scene with a yogic Shiva sitting under a Banyan tree, surrounded by diverse animals in a state of perfect peace and harmony.',
@@ -221,6 +229,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Hanuman Jayanti'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Rama', 'Vayu'],
+    imageUrl: 'https://images.unsplash.com/photo-1582298538104-fe2e74c27f59?q=80&w=1200&auto=format&fit=crop',
     imagePrompts: {
       museumStyle: 'An ancient stone bas-relief of Hanuman from a medieval temple, carrying the Sanjivani mountain, weathered features, dramatic lighting.',
       cinematicStyle: 'A powerful cinematic shot of Hanuman revealing Shiva in his heart, a blend of monkey features and the third eye of Mahadeva, cosmic background.',
@@ -276,13 +285,4 @@ export const NAMES_108: Name108[] = [
   { name: 'Mrityunjaya', meaning: 'Conqueror of Death' },
   { name: 'Shambhu', meaning: 'Abode of Joy' },
   { name: 'Pinaki', meaning: 'Wielder of the Pinaka Bow' }
-];
-
-export const TIMELINE_DATA = [
-  { era: TimelineEra.VEDIC, event: 'Emergence of Rudra in the Rigveda (c. 1500 BCE) as a storm and mountain deity associated with arrows and healing.' },
-  { era: TimelineEra.UPANISHADIC, event: 'The Shvetashvatara Upanishad (c. 400 BCE) identifies Rudra-Shiva as the singular Supreme Brahman and the ruler of Maya.' },
-  { era: TimelineEra.EPIC, event: 'Shiva becomes a central pillar of the Trimurti in the Mahabharata and Ramayana, often mediating between gods and demons.' },
-  { era: TimelineEra.PURANIC, event: 'Massive expansion of mythologies (c. 300-1000 CE). The Shiva Purana and Linga Purana codify his various avatars and the Linga worship.' },
-  { era: TimelineEra.MEDIEVAL, event: 'Rise of sophisticated philosophical systems like Kashmir Shaivism (Pratyabhijna) and the Bhakti movement in the South (Nayanars).' },
-  { era: TimelineEra.MODERN, event: 'Global recognition of Shaivite philosophy and the iconic Nataraja as a symbol of cosmic physics and art.' }
 ];

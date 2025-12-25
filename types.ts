@@ -43,6 +43,7 @@ export interface ShivaForm {
   era: TimelineEra;
   relatedFigures: string[];
   imagePrompts: ImagePromptSet;
+  imageUrl: string; // Added for immediate visual representation
 }
 
 export interface GlossaryItem {
