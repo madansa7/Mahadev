@@ -12,10 +12,22 @@ When asked about a specific form or concept, structure your response with:
 5. Modern Cultural context.
 If the information is speculative or not found in primary texts, state that clearly.`;
 
-export const askScholar = async (query: string): Promise<string> => {
+const getApiKey = () => {
   try {
-    // Initializing GoogleGenAI instance with the API key from environment variables.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    return process.env.API_KEY || "";
+  } catch (e) {
+    return "";
+  }
+};
+
+export const askScholar = async (query: string): Promise<string> => {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    return "The scholar is currently unavailable as the knowledge bridge (API key) is missing. This compendium remains available for your study through static data.";
+  }
+
+  try {
+    const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: query,
@@ -24,18 +36,19 @@ export const askScholar = async (query: string): Promise<string> => {
         temperature: 0.7,
       },
     });
-    // Extracting text output directly from the .text property of GenerateContentResponse.
     return response.text || "I am currently meditating on the scriptures and cannot answer. Please try again later.";
   } catch (error) {
     console.error("Gemini Error:", error);
-    return "The knowledge stream is currently interrupted. (API Key missing or error).";
+    return "The knowledge stream is currently interrupted. (API Error or limit reached).";
   }
 };
 
 export const generateFormVisual = async (prompt: string): Promise<string | null> => {
+  const apiKey = getApiKey();
+  if (!apiKey) return null;
+
   try {
-    // Initializing a new GoogleGenAI instance right before making an API call.
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    const ai = new GoogleGenAI({ apiKey });
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash-image',
       contents: {
@@ -48,7 +61,6 @@ export const generateFormVisual = async (prompt: string): Promise<string | null>
       }
     });
 
-    // Iterating through parts to find the image part in the response.
     for (const part of response.candidates?.[0]?.content?.parts || []) {
       if (part.inlineData) {
         return `data:image/png;base64,${part.inlineData.data}`;

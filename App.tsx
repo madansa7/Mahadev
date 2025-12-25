@@ -97,7 +97,6 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () =>
       </button>
 
       <div className="md:flex h-full max-h-[90vh] overflow-y-auto">
-        {/* Left Column: Visual & Stats */}
         <div className="md:w-5/12 bg-stone-950 border-r border-stone-800/50">
           <div className="aspect-[4/5] bg-stone-900 relative">
             {imageUrl ? (
@@ -130,7 +129,6 @@ const Modal: React.FC<{ form: ShivaForm; imageUrl: string | null; onClose: () =>
           </div>
         </div>
 
-        {/* Right Column: Detailed Info */}
         <div className="md:w-7/12 p-10 md:p-16 space-y-12 bg-stone-900/30">
           <section>
             <h3 className="text-3xl font-bold text-amber-500 mb-8 font-cinzel flex items-center gap-6">
@@ -202,6 +200,25 @@ const Timeline: React.FC = () => (
   </section>
 );
 
+const MasterNames: React.FC = () => (
+  <section className="py-32 px-6 bg-stone-950">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-20">
+        <h2 className="text-5xl font-bold text-amber-500 mb-6 font-cinzel">The Master List</h2>
+        <p className="text-stone-500 italic">Select names from the Shivasahasranama (1000 Names) with primary philosophical meanings.</p>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {NAMES_108.map((item, idx) => (
+          <div key={idx} className="p-6 bg-stone-900/30 border border-stone-800/50 rounded-2xl transition-all hover:bg-stone-800/50 hover:border-amber-900/30 group">
+            <h4 className="text-amber-500 text-lg font-bold mb-2 font-lora group-hover:text-amber-300">{item.name}</h4>
+            <p className="text-stone-600 text-[10px] uppercase tracking-wider">{item.meaning}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const App: React.FC = () => {
   const [selectedForm, setSelectedForm] = useState<ShivaForm | null>(null);
   const [filter, setFilter] = useState<FormClassification | 'All'>('All');
@@ -237,7 +254,7 @@ const App: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-20 gap-10 text-center md:text-left">
             <div>
               <h2 className="text-5xl font-bold text-amber-500 mb-4 font-cinzel">The Pantheon of Forms</h2>
-              <p className="text-stone-500 text-lg">Curated dataset of {SHIVA_FORMS.length} historical and scriptural manifestations.</p>
+              <p className="text-stone-500 text-lg">Curated dataset of historical and scriptural manifestations.</p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
               {['All', ...Object.values(FormClassification)].map(c => (
@@ -267,6 +284,7 @@ const App: React.FC = () => {
         </section>
 
         <Timeline />
+        <MasterNames />
         
         {/* Enhanced Glossary Section */}
         <section className="py-32 bg-amber-950/5 rounded-[3rem] border border-stone-800/50 px-8 md:px-20 mb-32">
