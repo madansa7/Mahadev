@@ -43,7 +43,7 @@ export interface ShivaForm {
   era: TimelineEra;
   relatedFigures: string[];
   imagePrompts: ImagePromptSet;
-  imageUrl: string; // Added for immediate visual representation
+  imageUrl: string;
 }
 
 export interface GlossaryItem {
@@ -55,4 +55,10 @@ export interface GlossaryItem {
 export interface Name108 {
   name: string;
   meaning: string;
+}
+
+export interface Jyotirlinga {
+  name: string;
+  location: string;
+  description: string;
 }

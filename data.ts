@@ -1,5 +1,5 @@
 
-import { ShivaForm, FormClassification, TimelineEra, GlossaryItem, Name108 } from './types';
+import { ShivaForm, FormClassification, TimelineEra, GlossaryItem, Name108, Jyotirlinga } from './types';
 
 export const SHIVA_FORMS: ShivaForm[] = [
   {
@@ -21,7 +21,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Arudra Darisanam', 'Maha Shivaratri'],
     era: TimelineEra.MEDIEVAL,
     relatedFigures: ['Kali', 'Patanjali'],
-    imageUrl: 'https://images.unsplash.com/photo-1632766035049-53b924976c66?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Shiva_as_the_Lord_of_Dance_LACMA_edit.jpg/960px-Shiva_as_the_Lord_of_Dance_LACMA_edit.jpg',
     imagePrompts: {
       museumStyle: 'Bronze Chola statue of Nataraja, museum lighting.',
       cinematicStyle: 'Nataraja dancing in a cosmic nebula.',
@@ -47,7 +47,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Maha Shivaratri'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Parvati', 'Adi Parashakti'],
-    imageUrl: 'https://images.unsplash.com/photo-1598974357801-903126868661?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Standing_Ardhanari_c.1800.jpg/500px-Standing_Ardhanari_c.1800.jpg',
     imagePrompts: {
       museumStyle: 'Ancient stone carving of Ardhanarishvara, high detail.',
       cinematicStyle: 'Cinematic glowing manifestation of the half-male half-female form.',
@@ -73,7 +73,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Guru Purnima'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Four Kumaras'],
-    imageUrl: 'https://images.unsplash.com/photo-1572044162444-ad60f128bde7?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/MaduraiTempleLordShiva.JPG/1280px-MaduraiTempleLordShiva.JPG',
     imagePrompts: {
       museumStyle: 'South Indian stone sculpture of Dakshinamurti.',
       cinematicStyle: 'Shiva sitting in deep silence under a giant glowing Banyan tree.',
@@ -99,7 +99,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Bhairava Ashtami'],
     era: TimelineEra.PURANIC,
     relatedFigures: ['Bhairavi'],
-    imageUrl: 'https://images.unsplash.com/photo-1636113847250-983b6329c0fc?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://www.astroved.com/us/wp-content/uploads/2024/02/Ashta-Bhairava-Invocation-resp-1.jpg',
     imagePrompts: {
       museumStyle: 'Dark stone Bhairava sculpture.',
       cinematicStyle: 'Bhairava in a moonlit cremation ground.',
@@ -125,7 +125,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['Veerabhadra Jayanti'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Bhadrakali', 'Daksha'],
-    imageUrl: 'https://images.unsplash.com/photo-1590050752117-23a9d7fc20c3?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Virabhadra_Daksha.jpg/500px-Virabhadra_Daksha.jpg',
     imagePrompts: {
       museumStyle: 'Lepakshi pillar carving of Veerabhadra.',
       cinematicStyle: 'Veerabhadra rising from the sacred fire.',
@@ -151,7 +151,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['N/A'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Anasuya', 'Atri'],
-    imageUrl: 'https://images.unsplash.com/photo-1582298538104-fe2e74c27f59?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Durvasa%E2%80%99s_wrath_against_Shakuntala.jpg/500px-Durvasa%E2%80%99s_wrath_against_Shakuntala.jpg',
     imagePrompts: {
       museumStyle: 'Old parchment illustration of Durvasa.',
       cinematicStyle: 'A sage with burning eyes cursing the Devas.',
@@ -177,7 +177,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['N/A'],
     era: TimelineEra.EPIC,
     relatedFigures: ['Drona', 'Krishna'],
-    imageUrl: 'https://images.unsplash.com/photo-1621252179027-94459d278660?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://shiva1008.com/wp-content/uploads/2024/03/ashvatthama-avatar-of-lord-shiva.jpeg',
     imagePrompts: {
       museumStyle: 'Mahabharata scene stone carving.',
       cinematicStyle: 'Ashwatthama wandering the ruins of Kurukshetra.',
@@ -203,7 +203,7 @@ export const SHIVA_FORMS: ShivaForm[] = [
     festivals: ['N/A'],
     era: TimelineEra.VEDIC,
     relatedFigures: ['Dadhichi', 'Shani'],
-    imageUrl: 'https://images.unsplash.com/photo-1598974357801-903126868661?q=80&w=1200&auto=format&fit=crop',
+    imageUrl: 'https://static.sanatan.org/wp-content/uploads/sites/6/2022/03/24172953/Maharshi_Pippalad_clr.jpg',
     imagePrompts: {
       museumStyle: 'Classical Vedic sage painting.',
       cinematicStyle: 'Piplaad meditating under a cosmic Peepal tree.',
@@ -259,4 +259,19 @@ export const NAMES_108: Name108[] = [
   { name: 'Mrityunjaya', meaning: 'Conqueror of Death' },
   { name: 'Shambhu', meaning: 'Abode of Joy' },
   { name: 'Pinaki', meaning: 'Wielder of the Pinaka Bow' }
+];
+
+export const JYOTIRLINGAS: Jyotirlinga[] = [
+  { name: 'Somnath', location: 'Gujarat', description: 'The "Lord of the Moon", believed to be the first of the twelve.' },
+  { name: 'Mahakaleshwar', location: 'Madhya Pradesh', description: 'The "Lord of Time", unique for its south-facing (Dakshinabhimukhi) idol.' },
+  { name: 'Omkareshwar', location: 'Madhya Pradesh', description: 'Located on an island shaped like the sacred symbol "Om".' },
+  { name: 'Kedarnath', location: 'Uttarakhand', description: 'The highest of the Jyotirlingas, located in the Himalayas.' },
+  { name: 'Bhimashankar', location: 'Maharashtra', description: 'Associated with the story of Shiva destroying the demon Tripurasura.' },
+  { name: 'Vishwanath', location: 'Uttar Pradesh', description: 'The "Lord of the Universe", located in the ancient city of Varanasi.' },
+  { name: 'Trimbakeshwar', location: 'Maharashtra', description: 'The source of the Godavari river, unique for its three-faced linga.' },
+  { name: 'Baidyanath', location: 'Jharkhand', description: 'The "Lord of Physicians", where Shiva is worshipped as a healer.' },
+  { name: 'Nageshwar', location: 'Gujarat', description: 'The "Lord of Snakes", mentioned in the Shiva Purana.' },
+  { name: 'Rameshwaram', location: 'Tamil Nadu', description: 'Where Lord Rama worshipped Shiva after the war with Ravana.' },
+  { name: 'Grishneshwar', location: 'Maharashtra', description: 'The last Jyotirlinga, rebuilt by Rani Ahilyabai Holkar.' },
+  { name: 'Mallikārjuna', location: 'Andhra Pradesh', description: 'A Shakti Peetha and Jyotirlinga combined, located on Srisailam mountain.' }
 ];
